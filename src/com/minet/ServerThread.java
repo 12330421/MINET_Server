@@ -126,23 +126,24 @@ public class ServerThread implements Runnable {
 	}
 
 	private void logout() throws IOException{
+		
 		Map requestData = helper.getData();
 		Map<String, Serializable> responseData = new HashMap<String, Serializable>();
 		String id = requestData.get("id").toString();
-
+		
+		responseData.put("Status", "OK");
+		helper.setResponseData(responseData);
+		outputWriter.println(helper.generateOutStr());
+		outputWriter.flush();
+		System.out.println("sent logout ACK");
 		for (int i = 0; i < userList.size(); ++i) {
 			User user = userList.get(i);
-			if (user.getId() == id) {
+			if (user.getId().indexOf(id) != -1) {
 				user.getOutputWriter().close();
 				user.getSocket().close();
 				userList.remove(i);
 			}
 		}
-		responseData.put("Status", "OK");
-		helper.setResponseData(responseData);
-		outputWriter.println(helper.generateOutStr());
-		outputWriter.flush();
-        
         
         String tempAction = "LogoutNotice";
         Map<String, String> tempData = new HashMap<String, String>();
