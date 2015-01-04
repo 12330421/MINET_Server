@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+//ProtocolHelper
 public class ProtocolHelper {
 	private String inStr;
 	private Map responseData;
